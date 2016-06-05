@@ -6148,3 +6148,23 @@ ul.tagit input[type="text"] {
         top: 120px;
     }
 }
+
+@media (max-width: 425px) {
+    .menu-container ul li {
+        font-size: 22px;
+    }
+    .margin-space {
+        margin-left: 20px;
+    }
+    .mainmenu-container ul li a i {
+        margin-right: 5px;
+    }
+    .menu-container ul {
+        padding-top: 10px;
+    }
+    .menu-container ul li:hover,
+    .menu-container ul li:focus,
+    .menu-container ul li.active {
+        border-bottom-width: 2px;
+    }
+}

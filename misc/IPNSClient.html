@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>Intently Push Notifications WebSocket Client</title>
+		<style type="text/css">
+			html,body { font:normal 0.9em arial,helvetica; }
+			#log { width:600px; height:300px; border:1px solid #7F9DB9; overflow:auto; }
+		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="../src/js/lib.crypto.js"></script>
+		<script src="../src/js/app.plugins.ipnsclient.js"></script>
+		<script type="text/javascript">
+
+		var ipnsClient;
+		$(document).ready(function() {
+			try {
+				ipnsClient = new ipnsClient($('#address').val(), true);
+				ipnsClient.on('connected', function(readyState) {
+					$("#log").html($("#log").html() + "<br>" + 'ipnsClient connected with ready state ' + readyState);
+				});
+				ipnsClient.on('authenticated', function() {
+					$("#log").html($("#log").html() + "<br>" + 'ipnsClient authenticated');
+				});
+				ipnsClient.on('msgSent', function(msg) {
+					$("#log").html($("#log").html() + "<br>" + 'ipnsClient msgSent "' + msg + '"');
+				});
+				ipnsClient.on('msgReceived', function(msg) {
+					$("#log").html($("#log").html() + "<br>" + 'ipnsClient msgReceived "' + msg + '"');
+				});
+				ipnsClient.on('disconnected', function(readyState) {
+					$("#log").html($("#log").html() + "<br>" + 'ipnsClient disconnected with ready state ' + readyState);
+				});
+			}
+			catch(ex) { console.log(ex); }
+		});
+
+		function connect() {
+			try { ipnsClient.connect($('#userID').val(), $('#bfp').val(), $('#guid').val()); }
+			catch(ex) { console.log(ex); }
+		}
+
+		function disconnect() {
+			try { ipnsClient.disconnect(); }
+			catch(ex) { console.log(ex); }
+		}
+
+		</script>
+	</head>
+	<body>
+		<h3>Intently Push Notifications WebSocket Client</h3>
+		IPNS Info Endpoint: <input id="address" type="textbox" value="https://api.devintently.com/v0.9.43/account/pushnotificationservice"/>
+		<button onclick="connect()">Connect</button>
+		<button onclick="disconnect()">Disconnect</button>
+		<div id="log"></div>
+		User ID (from account/config): <input id="userID" type="textbox" value=""/>
+		BFP (from cookie): <input id="bfp" type="textbox" value=""/>
+		GUID (from cookie): <input id="guid" type="textbox" value=""/>
+	</body>
+</html>

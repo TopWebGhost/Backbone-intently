@@ -1,0 +1,16 @@
+/* intently.com */
+/* humanstxt.org */
+
+/* TEAM */
+Back-end Engineer: Kyle Murphy
+Extension Development: Muthu
+Front-end Engineer: Mike MacDonald
+UX: Mike MacDonald
+Branding: Mike MacDonald
+
+
+/* SITE */
+Standards: HTML5, CSS3
+Components: jQuery
+Software: Textmate, Git, Photoshop
+Frameworks: Compass, Foundation

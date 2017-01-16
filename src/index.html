@@ -1,0 +1,1933 @@
+<!doctype html><!-- HOME -->
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>intently | see what you want to be</title>
+	<link rel="icon" type="image/png" href="/images/favicon.png" />
+
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css" />
+
+	<script src="bower_components/modernizr/modernizr.js"></script>
+	<script src="bower_components/uri.js/src/URI.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="bower_components/uri.js/src/URI.fragmentURI.js" type="text/javascript" charset="utf-8"></script>
+	<link type="text/plain" rel="author" href="humans.txt" />
+
+	<meta property="og:url"                content="https://www.intently.com/" />
+	<meta property="og:title"              content="intently | see what you want to be" />
+	<meta property="og:description"        content="replace online ads with inspiration" />
+	<meta property="og:image"              content="https://www.intently.com/images/intently-logo-top.png" />
+</head>
+<body id="home">
+	<div class="custom-modal-backdrop"></div>
+	<div id="overlay" class="modal fade in">
+		<div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title overlay-title">Modal title</h4>
+	      </div>
+	      <div class="modal-body overlay-view">
+	        <p>Body</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div id="notification"></div>
+	<div id="notification-success"></div>
+	<div id="notification-error"></div>
+	<div id="loading-container">
+		<div class="loading-logo">
+			<img src="../images/intently-logo-bottom.png" />
+			<div class="loading-text">Your inspration is loading...</div>
+		</div>
+	</div>
+	<div id="base-container" class="hidden">
+		<div id="wrapper"></div>
+		<div id="mainmenu"></div>
+	</div>
+	<div class="modal fade extension-modal-bg" id="extension-modal" tabindex="-1" role="dialog" aria-labelledby="extentionLabel">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-body">
+				<h2 class="font-bold text-center sans-serif small-caps color-blue padding-top-large">One Final Step</h2>
+				<h3 class="text-center sans-serif padding-small">Click the button below to install the Intently browser extension</h3>
+				<div id="install-extension-container" class="text-center padding-top-large padding-bottom-large"></div>
+				<h2 id="install-failure-warning" class="serif font-bold text-center text-italic padding-large" style="display: none; color: red;">WARNING: Your Channels will not replace ads until you install the Intently extension.</h2>
+				<h2 class="serif font-bold text-center text-italic padding-small">The Intently browser extension displays images from your Channels where you would otherwise see ads.</h2>
+				<h5 class="font-light text-center sans-serif padding-small">You may uninstall the extension at any time, though very few people ever do.</h5>
+			</div>
+			<a class="close-extension-modal" data-dismiss="modal">&#215;</a>
+		  </div>
+		</div>
+	</div>
+	<div id="templates" style="display: none;">
+		<div class="fullmodal-tmp">
+			<div id="full-modal-wrapper" class="bg-white">
+				{{ if(opts.show_close_button || opts.show_intently_logo || opts.header_text) { }}
+				<div class="full-modal-header">
+					{{ if(opts.show_intently_logo) { }}
+					<div class="full-modal-logo intentlyLogo"></div>
+					{{ } }}
+					{{ if(opts.header_text) { }}
+					<div class="full-modal-header-text">
+						{{ if(opts.show_intently_logo) { }}
+						<div class="full-modal-header-separator">|</div>
+						{{ } }}
+						{{= opts.header_text }}
+					</div>
+					{{ } }}
+					{{ if(opts.show_close_button) { }}
+					<div class="full-modal-close"></div>
+					{{ } }}
+				</div>
+				{{ } }}
+				<div class="full-modal-body">
+				</div>
+			</div>
+		</div>
+		<div class="setting-board-tmp">
+			<div class="setting-vb-overlay-tmp">
+				<form class="form-horizontal setting_form" role="form" >
+					<div class="form-group">
+						<label class="col-sm-3" for="vbName">Name</label>
+						<div class="col-sm-8" style="padding-left: 0;">
+							<input class="form-control name-field data" id="vbName" placeholder="Channel Name" data-field="name" maxlength="100" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" for="vbDesc">Description</label>
+						<div class="col-sm-8" style="padding-left: 0;">
+							<textarea class="form-control desc-field data" id="vbDesc" placeholder="What is this channel about" maxlength="100" data-field="description" data-listeners="description" data-replace="true"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" for="vbTags">Tags</label>
+						<div class="col-sm-8" style="padding-left: 0;">
+
+							<ul id="removeConfirmationTags" placeholder="#"></ul>
+						</div>
+					</div>
+					<div class="form-group ">
+						<label class="col-sm-3">Private</label>
+						<div class="col-sm-8 " id="switch_btn" >
+							<button type="button" class="btn secondary data" id="pr_yes" data-field="isPrivate" data-listeners="isPublic" data-replace="true">Yes</button>
+							<button type="button" class="btn success" id="pr_no" data-listeners="isPublic" data-replace="true">No</button>
+
+						</div>
+						<input type="hidden" class="customTags data" id="customTags" data-listeners="customTags" data-replace="true" data-field="customTags" />
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-3">
+							<button type="button" class="btn secondary" id="removeVB">Delete Channel</button>
+						</div>
+						<div class=" col-sm-offset-4 col-sm-4">
+							<button type="button" class="btn secondary" id="cancelVB">Cancel</button>
+							<button type="button" class="btn success" id="createVB">Create</button>
+							<button type="button" class="btn success" id="saveVB">Save</button>
+						</div>
+					</div>
+				</form>
+				<div class="remove-confirm-message hidden">
+					<h3>Remove this Channel?</h3>
+					<p>Once removed, your Channel will be gone. All subscribers will no longer be able to see or subscribe to it.</p>
+					<div class="center">
+						<button class="btn btn-primary remove-cancel mr1">Cancel</button>
+						<button class="btn btn-danger remove-confirm ml1">Remove</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="add-intention-vb-overlay-tmp">
+			<img src="{{= obj.intention.src }}" style="border-bottom: 1px solid #efefef; max-height: 200px; margin: 0px auto; display: block;"  alt="{{= obj.intention.description }}" />
+			<div class="add-intention-vb-list" style="max-height: 230px; overflow-y: scroll;"></div>
+		</div>
+		<div class="add-intention-vb-list-item-tmp">
+			<div class="vertical pl1 pt1 pb1 clickable add-vb add-vb-{{= obj._id }}" data-visionboard="{{= obj._id }}">
+				<div class="avatar clickable data" data-replace="true" data-listeners="coverFileName" style="background-image: url({{= app.config.get_base_cdn() }}cover/{{= obj.coverFileName }});"></div>
+				<p class="pl1 sans-serif">{{= app.config.trunc(obj.name, 40, true) }}</p>
+			</div>
+		</div>
+		<div class="add-intention-vb-list-empty-tmp">
+			<div class="no-vision-boards">
+				<p class="pl1 pt1 sans-serif">You have no Channels to add this Image to.</p>
+				<p class="center pt1"><div class="btn btn-primary white btn-close clickable data_trigger" data-trigger="overlay:show_vb_settings">Create New Channel</div>
+			</div>
+		</div>
+		<div class="share-intention-overlay-tmp">
+			<img src="{{= obj.intention.src }}" style="border-bottom: 1px solid #efefef; max-height: 200px; margin: 0px auto; display: block;"  alt="{{= obj.intention.description }}" />
+			<div class="share-intention-user-list" style="max-height: 230px; overflow-y: scroll;"></div>
+		</div>
+		<div class="share-intention-user-list-item-tmp">
+			<div class="vertical pl1 pt1 pb1 clickable share-intention share-intention-{{= obj._id }}" data-member="{{= obj.id }}">
+				<div class="avatar clickable" style="background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= (obj.cdnFileName != '') ? obj.cdnFileName : obj.avatar }}');"></div>
+				<p class="pl1 sans-serif">@{{= obj.username }}</p>
+			</div>
+		</div>
+		<div class="share-intention-user-list-empty-tmp">
+			<h4 class="sans-serif small-caps center">Invite your friends to Intently</h4>
+			<form onsubmit="return false;" class="invites-form">
+				<div class="fadeIn animated"></div>
+				<input type="text" class="form-control mb1" name="email" data-field="email" placeholder="Email Address" value="">
+				<button type="submit" class="green w100 send-invite">
+					<h4 class="sans-serif small-caps white">Send Invitation</h>
+				</button>
+			</form>
+		</div>
+		<div class="delete-intention-overlay-tmp">
+			<img src="{{= obj.intention.src }}" style="border-bottom: 1px solid #efefef; max-height: 200px; margin: 0px auto; display: block;"  alt="{{= obj.intention.description }}" />
+			<div class="center pt1 pb1">
+				<p>
+					Remove this Image?<br/>
+					<button class="btn mr1 btn-close clickable">Cancel</button>
+					<button class="btn bg-red ml1 intention-remove clickable" data-intention="{{= obj.intention._id }}">Remove</button>
+				</p>
+			</div>
+		</div>
+		<div class="signed-in-tmp">
+			<div class="content"></div>
+		</div>
+		<div class="dashboard2-tmp">
+			<div class="">
+				<h2 class="sans-serif font-light small-caps">
+					<span>SUBSCRIBED CHANNELS</span>
+				</h2>
+				<div class="dash2-subscribed-div">
+
+				</div>
+				<div class="dash2-subscribed-cards">
+
+				</div>
+			</div>
+			<br clear="both" />
+			<div class="">
+				<h2 class="sans-serif font-light small-caps">
+					<span>MY CHANNELS</span>
+				</h2>
+				<div class="dash2-mychannel-div">
+
+				</div>
+				<div class="dash2-mychannel-cards">
+
+				</div>
+			</div>
+			<div class="dashboard-content"></div>
+		</div>
+		<div class="dashboard-tmp">
+			<header class="pb0 ml2">
+				<p class="center">
+					<a class="cloud-btn pl1 pr1 mr1">Recommended</a>
+					<a class="all-btn pl1 pr1 mr1">All Channels</a>
+				</p>
+				<br/>
+			</header>
+			<div class="dashboard-content"></div>
+		</div>
+		<div class="dashboard-cloud-tmp">
+			<div class="trending-visionboards"></div>
+			<br clear="both" />
+			<h3 class="loading-search text-center sans-serif small-caps pt2">
+				<div class="fetching hidden">Loading...</div>
+				<div class="fetch hidden">Partial Results Loaded</div>
+				<div class="fetched hidden">All Results Loaded</div>
+			</h3>
+		</div>
+		<div class="dashboard-all-tmp">
+			<div class="trending-visionboards"></div>
+			<br clear="both" />
+			<h3 class="loading-search text-center sans-serif small-caps pt2">
+				<div class="fetching hidden">Loading...</div>
+				<div class="fetch hidden">Partial Results Loaded</div>
+				<div class="fetched hidden">All Results Loaded</div>
+			</h3>
+		</div>
+		<div class="members-tmp">
+			<div class="member-header clearfix">
+				<div class="right mt1 data" data-listeners="_relationship_status" data-replace="true">
+					{{ if(model._relationship_status == 'confirmed') { }}
+					<button class="connected btn btn-green" title="You are connected with @{{= model.username }}.">
+						<i class="fa fa-check-circle"></i>
+					</button>
+					{{ } else if(model._relationship_status == 'pending') { }}
+					<button class="pending btn btn-green" title="Accept connection request.">
+						<i class="fa fa-user-plus"></i>Accept
+					</button>
+					{{ } else if(model._relationship_status == 'requested') { }}
+					<button class="requested btn btn-green" title="Connection requested.">
+						<i class="fa fa-envelope"></i>
+					</button>
+					{{ } else if(model._relationship_status != 'self') { }}
+					<button class="connect btn btn-green" title="Connect with @{{= model.username }}.">
+						<i class="fa fa-user-plus mr1"></i>Connect
+					</button>
+					{{ } }}
+					{{ if(model._relationship_status == 'requested' || model._relationship_status == 'confirmed') { }}
+					<button class="cancel btn btn-red ml1" title="Remove connection to @{{= model.username }}.">
+						<i class="fa fa-user-times"></i>
+					</button>
+					{{ } }}
+				</div>
+				<div class="member-avatar data" data-listeners="avatar" data-replace="true">
+					<img style="background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= model.avatar }}');" class="avatar" />
+				</div>
+				<div class="member-title data" data-listeners="username" data-replace="true">
+					<span style="color: #F2F2F2">@</span>{{= model.username }}
+				</div>
+				<div class="member-description data" data-listeners="description" data-replace="true">
+				{{= model.description || 'No description' }}
+				</div>
+				<div class="member-stats data" data-listeners="confirmedFriendCount|subscriptionCount" data-replace="true">
+					<span class="member-stat">{{= model.confirmedFriendCount }} Connections</span>
+					<span class="member-stat">{{= model.subscriptionCount }} Subscriptions</span>
+				</div>
+			</div>
+			<div class="mt1">
+				<div class="members-visionboards"></div>
+			</div>
+			<h3 class="text-center sans-serif small-caps pt2 data" data-listeners="username" data-replace="true">
+				<div class="fetching hidden">Loading {{= model.username }}'s Channels...</div>
+				<div class="error hidden">Error loading {{= model.username }}'s Channels</div>
+			</h3>
+		</div>
+		<div class="connections-tmp">
+			<header class="pb0 ml2 mb2">
+				<h2 class="sans-serif font-light small-caps clearfix">
+					<i class="fa fa-users margin-right"></i><span>Connections</span>
+					<div id="search-toggle" class="float-right" style="display:none"><i class="fa fa-search margin-right"></i><span>Connections</span></div>
+				</h2>
+			</header>
+			<hr style="border-top: 1px solid gray; margin: 0 5rem;" />
+			<h4 class="sans-serif small-caps center mb2 mt2">
+				<span>Invite your friends to Intently</span>
+			</h4>
+			<form onsubmit="return false;" class="invites-form center mb2">
+				<input type="text" class="form-control mb2 w50 center" name="email" data-field="email" placeholder="Email Address" value="">
+				<button type="submit" class="btn btn-green clickable w50 send-invite">
+					<h4 class="sans-serif small-caps white">Send Invitation</h4>
+				</button>
+			</form>
+			<hr style="border-top: 1px solid gray; margin: 0 5rem;" />
+			<h4 class="sans-serif small-caps center mb2 mt2">
+				<span>Your Intently Connections</span>
+			</h4>
+			<div class="member-connections"></div>
+			<h3 class="text-center sans-serif small-caps pt2">
+				<div class="fetching hidden">Loading Users...</div>
+				<div class="fetch hidden">Partial Users Loaded</div>
+				<div class="fetched hidden">All Users Loaded</div>
+			</h3>
+		</div>
+		<div class="invite-tmp">
+			<header class="ml2">
+				<h2 class="sans-serif font-light small-caps clearfix">
+					<i class="fa fa-envelope margin-right"></i><span>Invite Friends to Intently</span>
+				</h2>
+			</header>
+			<div id="invites" class="invites">
+				<ul class="no-bullets"></ul>
+			</div>
+	        <medium id="invite-response-message"></medium>
+	        <button id="send-invites" type="submit" class="green w100">
+	            <h2>Send</h2>
+	        </button>
+		</div>
+		<div class="invite-email-tmp">
+            <label>
+                <input id="invite-email-{{= obj.index }}" type="text" placeholder="Email Address" value="">
+            </label>
+		</div>
+		<div class="404-tmp">
+			<div class="w80 center">
+				<div>
+					<h1>Oops...</h1>
+					<h4>This was not intended (that pun was, though)</h4>
+					<h2 class="red">{{= model.message }}</h2>
+				</div>
+				<div class="mt5">
+					<img src="../images/intently-logo-bottom.png" />
+				</div>
+				<div class="btn btn-green w155px center mt5 back-btn">
+					<< Back
+				</div>
+			</div>
+		</div>
+		<div class="welcome-tmp">
+			<div class="onboard-box">
+				<div class="onboard-welcome-message">
+					Hi, I'm Maia!<br/>
+					Welcome to Intently!<br/>
+					It's great to have you here, let's get started.
+				</div>
+				<div class="onboard-option">
+					<span class="btn-onboard onboard-create"><i class="fa fa-plus mr1"></i>Create your own channel</span><span> of inspirational images.</span>
+				</div>
+				<div class="onboard-option">
+					<span class="btn-onboard onboard-search"><i class="fa fa-search mr1"></i>Search for a channel</span><span> which suits your vision.</span>
+				</div>
+				<div class="onboard-option">
+					<span class="btn-onboard onboard-maia"><i class="fa fa-magic mr1"></i>Have Maia curate a channel</span><span> just for you - premium demo.</span>
+				</div>
+			</div>
+		</div>
+		<div class="search-tmp">
+			<div class="container-fluid">
+				<div class="search-results-div hidden">
+					<br clear="both" />
+					<br clear="both" />
+					<h2 class="sans-serif font-light small-caps" id="title-for-intention">
+						<i class="fa fa-search margin-right"></i><span>IMAGES</span>
+						<span class="search-back-btn float-right" ><< Back</span>
+					</h2>
+
+					<h2 class="sans-serif font-light small-caps" id="title-for-visionboard">
+						<i class="fa fa-search margin-right"></i><span>VISIONBOARDS</span>
+						<span class="search-back-btn float-right" ><< Back</span>
+					</h2>
+					<h2 class="sans-serif font-light small-caps" id="title-for-user">
+						<i class="fa fa-search margin-right"></i><span>USERS</span>
+						<span class="search-back-btn float-right" ><< Back</span>
+					</h2>
+					<br clear="both" />
+					<div class="search-results row"></div>
+				</div>
+				<div class="search-results-preview">
+					<br clear="both" />
+					<br clear="both" />
+					<div class="search-results-preview-intention-div">
+						<h2 class="sans-serif font-light small-caps">
+							<i class="fa fa-search margin-right"></i><span>IMAGES</span>
+							<span class="search-viewall-btn search-viewall-intention-btn float-right hidden" data-field="intention">View All</span>
+						</h2>
+						<br clear="both" />
+						<div class="search-results-preview-intention row">
+							<div class="search-preview-loading search-preview-intention-loading hidden">Loading...</div>
+							<div class="search-preview-msg search-preview-intention-msg hidden">NO IMAGE RESULTS FOUND</div>
+						</div>
+					</div>
+					<br clear="both" />
+					<br clear="both" />
+					<div class="search-results-preview-visionboard-div">
+						<h2 class="sans-serif font-light small-caps">
+							<i class="fa fa-search margin-right"></i><span>VISIONBOARDS</span>
+							<span class="search-viewall-btn search-viewall-visionboard-btn float-right hidden" data-field="visionboard">View All</span>
+						</h2>
+						<br clear="both" />
+						<div class="search-results-preview-visionboard row">
+							<div class="search-preview-loading search-preview-visionboard-loading hidden">Loading...</div>
+							<div class="search-preview-msg search-preview-visionboard-msg hidden">NO VISION BOARD RESULTS FOUND</div>
+						</div>
+					</div>
+					<br clear="both" />
+					<br clear="both" />
+					<div class="search-results-preview-user-div">
+						<h2 class="sans-serif font-light small-caps">
+							<i class="fa fa-search margin-right"></i><span>USERS</span>
+							<span class="search-viewall-btn search-viewall-user-btn float-right hidden" data-field="user">View All</span>
+						</h2>
+						<br clear="both" />
+						<div class="search-results-preview-user row">
+							<div class="search-preview-loading search-preview-user-loading hidden">Loading...</div>
+							<div class="search-preview-msg search-preview-user-msg hidden">NO USER RESULTS FOUND</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br clear="both" />
+			<h3 class="loading-search text-center sans-serif small-caps pt2 hidden">
+				<div class="fetching hidden">Loading...</div>
+				<div class="fetch hidden">Partial Results Loaded</div>
+				<div class="fetched hidden">All Results Loaded</div>
+			</h3>
+		</div>
+
+		<div class="discover-tmp">
+			<div id="searchbar" class="w100 bg-white search-bar">
+				<div class="input-group">
+					<input type="text" class="form-control i serif searchInput" id="search" placeholder="Search images, #tags, channels, users" autocomplete="off" />
+					<div id="search-btn" class="input-group-addon bg-grey white searchBtn data_trigger" data-trigger="search:click"><i class="fa fa-search"></i></div>
+				</div>
+				<div id="autocomplete-overlay" class="arrow_box" style="display: none;">
+					<div class="arrow-up" id="caret"></div>
+					<div id="autocomplete-title" class="sans-serif small-caps text-center"></div>
+					<div class="inline w50 pr1 trending-tag-left"></div>
+					<div class="inline w50 trending-tag-right"></div>
+					<div class="autocomplete-boards"></div>
+					<div class="autocomplete-users"></div>
+				</div>
+				<div class="search-term-div">
+					<button class="btn-search-term active btn-search-term-intention" data-field="intention">Images</button>
+					<button class="btn-search-term btn-search-term-visionboard" data-field="visionboard">Channels</button>
+					<button class="btn-search-term btn-search-term-user" data-field="user">Users</button>
+				</div>
+			</div>
+
+			<div class="container-fluid discover-container">
+				<div class="search-setting bg-green">
+					<i class="fa fa-plus" id="plusIcon"></i>
+				</div>
+				<div class="dropdownContain " id="discover-menu">
+					<div class="dropOut">
+						<div class="triangle"></div>
+						<ul>
+							<li><a ><i class="fa fa-download mr1" ></i>Upload image</a></li>
+							<li><a href="#/meme"><i class="fa fa-picture-o mr1" ></i>Create Image</a></li>
+							<li><a class="data_trigger" data-trigger="overlay:show_vb_settings"><i class="fa fa-plus mr1" ></i>Create new channel</a></li>
+							<li><a href="#/maia"><i class="fa fa-magic mr1" ></i>Ask Maia</a></li>
+							<li><p>Maia is a premium feature that will create a custom chance for you</p></li>
+						</ul>
+					</div>
+				</div>
+				<div class="search-results-div">
+					<br clear="both" />
+					<br clear="both" />
+					<br clear="both" />
+					<div class="search-results row"></div>
+				</div>
+			</div>
+			<br clear="both" />
+			<h3 class="loading-search text-center sans-serif small-caps pt2 ">
+				<div class="fetching ">Loading...</div>
+				<div class="fetch hidden">Partial Results Loaded</div>
+				<div class="fetched hidden">All Results Loaded</div>
+			</h3>
+		</div>
+
+		<div class="remove-vb-list-item-tmp">
+			<div class="vertical pl1 pt1 pb1">
+				<div class="avatar"
+					style="background-image: url({{= app.config.get_base_cdn() }}cover/{{= obj.coverFileName }});">
+				</div>
+				<p class="pl1">{{= obj.name }}</p>
+			</div>
+		</div>
+		<div class="curate-tmp">
+			<div class="curate-box">
+				<div class="curate-heading">
+					<h3 class="curate-stats right data" data-listeners="numResources" data-replace="true"><i class="fa fa-picture-o"></i> {{= model.numResources }} Images</h3>
+					<h2 class="curate-title data" data-listeners="name" data-replace="true">Adding Images to <b>{{= model.name }}</b></h2>
+				</div>
+				<div class="curate-body">
+					<div class="input-group mt1 mb1">
+						<input type="text" class="form-control intention-search" placeholder="Search for Inspiring Images" autocomplete="off" />
+						<div class="input-group-addon btn btn-danger search-clear"><i class="fa fa-times-circle"></i></div>
+					</div>
+					<div class="curate-images"></div>
+					<h3 class="loading-search text-center sans-serif small-caps pt2">
+						<div class="fetching hidden">Loading...</div>
+						<div class="fetch hidden">Partial Results Loaded</div>
+						<div class="fetched hidden">All Results Loaded</div>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="intention-tmp">
+			<div class="rounded bg-white mt1 pl1 pt1 pr1 pb1">
+				<div class="header clearfix pl1">
+					<div class="actions right mt1 pr1">
+						<button class="btn btn-primary fadeIn animated data data_trigger" data-listeners="id" data-replace="true" data-trigger="overlay:review_intention" data-message="{{= model.id }}">
+							<i class="fa fa-plus-square"></i> Add To Channel
+						</button>
+						<button class="btn btn-primary fadeIn animated data data_trigger" data-listeners="_id" data-replace="true" data-trigger="overlay:share_intention_to_facebook" data-message="{{= model.id }}">
+							<i class="fa fa-facebook"></i> Share to Facebook
+						</button>
+						<button class="btn btn-primary fadeIn animated data data_trigger" data-listeners="id" data-replace="true" title="Share Image" data-trigger="overlay:share_intention" data-message="{{= model.id }}">
+							<i class="fa fa-share"></i> Share
+						</button>
+					</div>
+					<h2 class="sans-serif small-caps">
+						<span class="fa fa-picture-o mr1"></span>
+						<span>Image</span>
+					</h2>
+					<h4 class="sans-serif fadeInUp animated {{= (model.authorName) ? '' : 'hidden'}} data" data-listeners="authorName" data-replace="true">
+						by: <a class="discreet clickable data" data-listeners="authorName" data-replace="true" href="#/@{{= model.authorName }}" title="View profile"><i class="fa fa-at"></i>{{= model.authorName }}</a>
+					</h4>
+					<div class="data mr1 {{= (model.description) ? '': 'hidden'}}" data-listeners="description" data-replace="true">
+						<p>{{= model.description || 'No description' }}</p>
+					</div>
+					<div class="tile intention">
+						<hr class="mt1 mb1" />
+						<img class="item float-center data" src="{{= model.src }}" data-listeners="src" />
+						<div class="data mr1 {{= (model.customTags || model._is_owned) ? '': 'hidden'}}" data-listeners="customTags|_is_owned" data-replace="true">
+							<hr class="mt1 mb1" />
+							<div class="tags">
+								<h4>Tags:
+								{{ _.each(model.customTags.split('|'), function(tag) { if (tag !== '') { }}
+									<div class="btn-group mb1">
+										<a href="#/search/{{= tag }}" class="btn btn-primary btn-sm clickable" >#{{= tag }}</a>
+										{{ if (model._is_owned) { }}<a class="btn btn-default btn-sm remove-tag" data-tag="{{= tag }}"><i class="fa fa-times-circle"></i></a>{{ } }}
+									</div>
+								{{ } }); }}
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="visionboard-tmp">
+			<div class="visionboard-header clearfix">
+				<div class="visionboard-label-overlay data" data-listeners="isPremium|isOwned|isPublic" data-replace="true">
+					{{ if(model.aiGenerated == '1') { }}
+					<div class="visionboard-label-box maia" title="This vision board was generated by Maia.">
+						<span class="visionboard-label maia">Maia Board</span>
+					</div>
+					<div class="visionboard-label-box-shadow"></div>
+					{{ } else if(model.isOwned == '1') { }}
+					<div class="visionboard-label-box owned" title="You can edit this vision board.">
+						<span class="visionboard-label owned">My Board</span>
+					</div>
+					<div class="visionboard-label-box-shadow"></div>
+					{{ } else if(model.isPremium == '1') { }}
+					<div class="visionboard-label-box premium" title="This is a premium vision board.">
+						<span class="visionboard-label premium">Premium Board</span>
+					</div>
+					<div class="visionboard-label-box-shadow"></div>
+					{{ } }}
+				</div>
+				<div class="right mt1 data" data-listeners="isSubscribed|isOwned" data-replace="true">
+					{{ if(model.isOwned == '1') { }}
+					<button class="edit btn btn-gray data_trigger" title="Edit this vision board." data-trigger="overlay:show_vb_settings" data-message="{{= model.id }}" >
+						<i class="fa fa-cog"></i>
+					</button>
+					{{ } }}
+					{{ if(model.isSubscribed == '1') { }}
+					<button class="unsubscribe btn btn-red ml1" title="Unsubscribe from this vision board.">
+						<i class="fa fa-thumb-tack"></i>
+					</button>
+					{{ } else { }}
+					<button class="subscribe btn btn-green ml1" title="Subscribe to this vision board.">
+						<i class="fa fa-thumb-tack mr1"></i> Subscribe
+					</button>
+					{{ } }}
+				</div>
+				<div class="visionboard-title data" data-listeners="name" data-replace="true">
+				{{= model.name }}
+				</div>
+				<div class="visionboard-description data" data-listeners="shortDescription" data-replace="true">
+				{{= model.shortDescription || 'No description' }}
+				</div>
+				<div class="visionboard-tags-stats data {{= (model.customTags || model.isOwned == '1') ? '': 'hidden'}}" data-listeners="customTags|isOwned|numResources|numSubscriptions" data-replace="true">
+					{{ _.each(model.customTags.split('|').slice(0, 3), function(tag) { if (tag !== '') { }}
+					<a href="#/search/{{= tag }}" class="visionboard-tag" >#{{= tag }}</a>
+					{{ } }); }}
+					<span class="visionboard-stat">{{= model.numResources }} Images</span>
+					<span class="visionboard-stat">{{= model.numSubscriptions }} Subscribers</span>
+				</div>
+				<div class="visionboard-author data" data-listeners="authorName|authorFileName" data-replace="true">
+					<a class="visionboard-author-link" href="#/@{{= model.authorName }}" title="View @{{= model.authorName }}'s profile.">
+						<img style="background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= ((model.authorFileName) ? model.authorFileName : 'intentlyAvatar.png') }}');" class="avatar" />@{{= model.authorName }}
+					</a>
+				</div>
+			</div>
+			<div class="mt1">
+				<div class="visionboard-active-intentions"></div>
+				<h3 class="text-center sans-serif small-caps pt2">
+					<div class="fetching hidden">Loading Images...</div>
+					<div class="fetch hidden">Partial Images Loaded</div>
+					<div class="fetched hidden">All Images Loaded</div>
+				</h3>
+			</div>
+			<div class="custom-modal-backdrop"></div>
+			<div class="modal fade edit-modal mt1 form-overlay-edit" tabindex="-1" role="dialog" data-backdrop="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title data" data-listeners="name" data-replace="true">Edit Channel</h4>
+						</div>
+						<div class="modal-body edit-board overlay-view-edit">
+							<div class="edit-form ">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label class="col-sm-3" for="vbName_edit">Name</label>
+										<div class="col-sm-8" style="padding-left: 0;">
+											<input class="form-control name-field mb1 data" id="vbName_edit" placeholder="Channel Name" maxlength="100" data-field="name" value="{{= model.name }}">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-3" for="vbDesc_edit">Description</label>
+										<div class="col-sm-8" style="padding-left: 0;">
+											<textarea class="form-control desc-field mb1 data" id="vbDesc_edit" placeholder="What is this channel about" maxlength="100" data-field="description" data-listeners="description" data-replace="true">{{= model.description }}</textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3" >Tags</label>
+										<div class="col-sm-8" style="padding-left: 0;">
+											<ul id="removeConfirmationTags_edit" placeholder="#"></ul>
+										</div>
+									</div>
+									<div class="form-group ">
+										<label class="col-sm-3">Private</label>
+										<div class="col-sm-8 " id="switch_btn_edit" >
+											<button type="button" class="btn {{ if(model.isPublic == 1) { }}secondary{{ }else { }} success {{ } }} private_vb data" id="pr_yes_edit" data-field="isPrivate" data-listeners="isPublic" data-replace="true">Yes</button>
+											<button type="button" class="btn {{ if(model.isPublic == 1) { }}success{{ }else { }} secondary {{ } }} public_vb data" id="pr_no_edit" data-listeners="isPublic" data-replace="true">No</button>
+										</div>
+									</div>
+									<input type="hidden" class="customTags data" data-listeners="customTags" data-replace="true" data-field="customTags" value="{{= model.customTags }}" />
+									<div class="form-group footer">
+										<div class="col-sm-3">
+											<button type="button" class="btn secondary" id="removeVB_edit">Delete Channel</button>
+										</div>
+										<div class=" col-sm-offset-4 col-sm-4">
+											<button type="button" class="btn secondary" id="cancelVB_edit">Cancel</button>
+											<button type="button" class="btn success" id="saveVB_edit">Save</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="remove-confirm-message hidden">
+								<h3>Remove this Channel?</h3>
+								<p>Once removed, your Channel will be gone. All subscribers will no longer be able to see or subscribe to it.</p>
+								<div class="center">
+									<button class="btn btn-primary remove-cancel mr1">Cancel</button>
+									<button class="btn btn-danger remove-confirm ml1">Remove</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="preview-template" style="display: none;">
+					<div class="dz-preview dz-file-preview">
+						<div class="dz-image">
+							<img data-dz-thumbnail="">
+						</div>
+						<div class="dz-details">
+							<div class="dz-size">
+								<span data-dz-size=""></span>
+							</div>
+							<div class="dz-filename">
+								<span data-dz-name=""></span>
+							</div>
+						</div>
+						<div class="dz-progress">
+							<span class="dz-upload" data-dz-uploadprogress=""></span>
+						</div>
+						<div class="dz-error-message">
+							<span data-dz-errormessage=""></span>
+						</div>
+						<div class="dz-success-mark">
+							<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+								<!-- Generator: Sketch 3.2.1 (9971) - http://www.bohemiancoding.com/sketch -->
+								<title>Check</title>
+								<desc>Created with Sketch.</desc>
+								<defs></defs>
+								<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+									<path d="M23.5,31.8431458 L17.5852419,25.9283877 C16.0248253,24.3679711 13.4910294,24.366835 11.9289322,25.9289322 C10.3700136,27.4878508 10.3665912,30.0234455 11.9283877,31.5852419 L20.4147581,40.0716123 C20.5133999,40.1702541 20.6159315,40.2626649 20.7218615,40.3488435 C22.2835669,41.8725651 24.794234,41.8626202 26.3461564,40.3106978 L43.3106978,23.3461564 C44.8771021,21.7797521 44.8758057,19.2483887 43.3137085,17.6862915 C41.7547899,16.1273729 39.2176035,16.1255422 37.6538436,17.6893022 L23.5,31.8431458 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z" id="Oval-2" stroke-opacity="0.198794158" stroke="#747474" fill-opacity="0.816519475" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+								</g>
+							</svg>
+						</div>
+						<div class="dz-error-mark">
+							<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+								<!-- Generator: Sketch 3.2.1 (9971) - http://www.bohemiancoding.com/sketch -->
+								<title>error</title>
+								<desc>Created with Sketch.</desc>
+								<defs></defs>
+								<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+									<g id="Check-+-Oval-2" sketch:type="MSLayerGroup" stroke="#747474" stroke-opacity="0.198794158" fill="#FFFFFF" fill-opacity="0.816519475">
+										<path d="M32.6568542,29 L38.3106978,23.3461564 C39.8771021,21.7797521 39.8758057,19.2483887 38.3137085,17.6862915 C36.7547899,16.1273729 34.2176035,16.1255422 32.6538436,17.6893022 L27,23.3431458 L21.3461564,17.6893022 C19.7823965,16.1255422 17.2452101,16.1273729 15.6862915,17.6862915 C14.1241943,19.2483887 14.1228979,21.7797521 15.6893022,23.3461564 L21.3431458,29 L15.6893022,34.6538436 C14.1228979,36.2202479 14.1241943,38.7516113 15.6862915,40.3137085 C17.2452101,41.8726271 19.7823965,41.8744578 21.3461564,40.3106978 L27,34.6568542 L32.6538436,40.3106978 C34.2176035,41.8744578 36.7547899,41.8726271 38.3137085,40.3137085 C39.8758057,38.7516113 39.8771021,36.2202479 38.3106978,34.6538436 L32.6568542,29 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z" id="Oval-2" sketch:type="MSShapeGroup"></path>
+									</g>
+								</g>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade tags-modal mt1" tabindex="-1" role="dialog" data-backdrop="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title data" data-listeners="name" data-replace="true">{{= model.name }} Tags</h4>
+						</div>
+						<div class="modal-body">
+							<p>Add Tags to your Channel to help others find your inspiration</p>
+							<input class="form-control new-tag" type="text" maxlength="24" placeholder="Tag name (i.e. Quotes)" />
+							<p class="suggested-desc">Or add suggested tags by clicking a tag below</p>
+							<div class="suggested-tags center"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary close-tag-modal" data-dismiss="modal">Done</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade cover-modal mt1" tabindex="-1" role="dialog" data-backdrop="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title data" data-listeners="name" data-replace="true">{{= model.name }}</h4>
+						</div>
+						<div class="modal-body">
+							<p>Click the image you want to represent this channel</p>
+							<div class="cover-images"></div>
+							<br class="clear" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary close-cover-modal" data-dismiss="modal">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="premiumvisionboardupgrade-tmp">
+			<div class="visionboard-upgrade-box" style="top: {{= position_top }}px;">
+				<div class="visionboard-upgrade-text mb2">+ {{= num_resources }} Amazing Images & Quotes</div>
+ 				<button class="btn btn-green upgrade data_trigger" title="Upgrade to Intently PRO" data-trigger="overlay:show_subscription_payment_settings">Upgrade to Intently PRO</button>
+			</div>
+		</div>
+		<div class="notifications-tmp">
+			<header class="ml2">
+				<h2 class="sans-serif font-light small-caps">
+					<i class="fa fa-sticky-note margin-right"></i><span>Notifications</span>
+				</h2>
+			</header>
+			<div id="notifications" class="ml2">
+            	<div id="notifications-list" class="padding-large"></div>
+			</div>
+			<h3 class="text-center sans-serif small-caps margin-top-large fadeIn animated" id="load-more" style="display:none; cursor: pointer;"><i class="fa fa-plus-circle"></i> Load More Notifications</h3>
+			<h3 class="text-center sans-serif small-caps margin-top-large fadeIn animated" id="loading" style="display:none;">Loading...</h3>
+			<h3 class="text-center sans-serif small-caps margin-top-large fadeIn animated" id="all-loaded" style="display:none;">All Notifications Loaded</h3>
+		</div>
+		<div class="notification-default-tmp">
+			<div id="notification-{{= obj.id }}" class="notification clearfix margin-bottom {{= (obj.dateAcknolwedged == '') ? 'unacknowledged' : '' }}">
+				<div class="notification-image margin-right"><img src="{{= obj.cdnFileName }}" /></div>
+				<div class="notification-text serif text-italic">{{= obj.notification }}</div>
+				{{ if (obj.positiveAction) { }}
+					<div class="notification-action">
+						<a class="button action positiveAction font-light"
+							id="notification-{{= obj.id }}-positive" href="{{= obj.positiveActionRoute }}">
+							<span>{{= obj.positiveAction }}</span>
+						</a>
+					</div>
+				{{ } if (obj.negativeAction) { }}
+					<div class="notification-action">
+						<a class="button action negativeAction font-light"
+							id="notification-{{= obj.id }}-negative" href="{{= obj.negativeActionRoute }}">
+							<span>{{= obj.negativeAction }}</span>
+						</a>
+					</div>
+				{{ } }}
+			</div>
+		</div>
+		<div class="sidebar-tmp">
+			<div class="sidebar-container">
+				<div class="branding">
+					<div id="intently" class="clearfix">
+						<div class="member-links float-right" id="memberlinks">
+							<a class="inline clickable drop">
+								<img style="background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= obj.user.avatar }}');" class="avatar inline ml1 mt1 mb1 mr0" />
+								<i class="fa fa-angle-down mr1" id="avatar-drop-icon"></i>
+							</a>
+							<div class="dropdownContain">
+								<div class="dropOut">
+									<div class="triangle"></div>
+									<ul>
+										<li><a href="#/@{{= obj.user.username }}"><i class="fa  fa-user mr1" ></i>Profile</a></li>
+										<li><a href="#/settings"><i class="fa fa-credit-card mr1" ></i>Account</a></li>
+										<li><a href="https://intently.zendesk.com/hc/en-us" target="_blank" class="support {{= obj.nav.support }}"><i class="fa fa-child mr1" ></i>Help</a></li>
+										<li><a id="signout-p"><i class="fa fa-sign-out mr1" ></i>Log Out</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<button class="btn btn-hamburger ml1 mr1 {{= (obj.nav.current == 'profile') ? '' : 'hidden' }}"><i class="fa fa-bars"></i></button>
+					</div>
+				</div>
+				<div class="user-profile {{= (obj.nav.current == 'profile') ? '' : 'hidden' }}">
+					<div class="member-links float-right" id="memberlinks-mobile">
+						<a class="inline clickable drop">
+							<img style="background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= obj.user.avatar }}');" class="avatar inline ml1 mt1 mb1 mr0" />
+							<i class="fa fa-angle-down mr1" id="avatar-drop-icon"></i>
+						</a>
+						<div class="dropdownContain">
+							<div class="dropOut">
+								<div class="triangle"></div>
+								<ul>
+									<li><a href="#/@{{= obj.user.username }}"><i class="fa  fa-user mr1" ></i>Profile</a></li>
+									<li><a href="#/settings"><i class="fa fa-credit-card mr1" ></i>Account</a></li>
+									<li><a href="https://intently.zendesk.com/hc/en-us" target="_blank" class="support {{= obj.nav.support }}"><i class="fa fa-child mr1" ></i>Help</a></li>
+									<li><a id="signout-p-mobile"><i class="fa fa-sign-out mr1" ></i>Log Out</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<a href="#/dashboard" class=" clickable highlightable block pl1 nav-link"><i class="fa fa-compass mr1"></i>Explore</a>
+					<a class="clickable highlightable block pl1 nav-link" href="#/meme"><i class="fa fa-magic mr1"></i>Create an Image</a>
+					<a href="#/connections" class=" clickable highlightable block pl1 nav-link"><i class="fa fa-users mr1"></i>Connections</a>
+					<a href="#/notifications" class=" clickable highlightable block pl1 nav-link" id="notifications-link"><i class="fa fa-bell-o  mr1"></i>{{= obj.notificationCount }} Notifications</a>
+
+					<hr class="ml1" />
+					<span class="notifications small-caps white pl1">
+						<button class="btn btn-info btn-xs right mr1 data_trigger" data-trigger="overlay:show_vb_settings"><i class="fa fa-plus"></i> NEW</button>
+						<a href="#/maia"><button class="btn btn-info btn-xs right mr1"><i class="fa fa-plus"></i> MAIA</button></a>
+						<i class="fa fa-th mr1"></i>My Channels
+					</span>
+					<div class="my-visionboards pt1">
+						{{ if (obj.owned_status == 'fetching')  { }}
+						<p class="pl1">Fetching your Channels...</p>
+						{{ } else if (obj.owned.length == 0) { }}
+						<p class="pl1">
+							<div class="clickable data_trigger" data-trigger="overlay:show_vb_settings" style="color: red;"><b>You have not created any Channels!<br/>Click here to create one.</b></div>
+						</p>
+						{{ } else { _.each(obj.owned, function (board) { }}
+						{{= obj.board_tmp(board) }}
+						{{ }) } }}
+					</div>
+					<hr class="ml1" />
+					<span class="notifications small-caps white pl1"><i class="fa fa-th mr1"></i>Subscribed Channels</span>
+					<div class="subscribed-visionboards pt1">
+						{{ if (obj.owned_status == 'fetching')  { }}
+						<p class="pl1">Fetching your Channel subscriptions...</p>
+						{{ } else if (obj.subscribed.length == 0) { }}
+						<p class="pl1">
+							<a href="#/dashboard" class="clickable" style="color: red;"><b>You are not subscribed to any Channels!<br/>Click here to see popular boards.</b></a>
+						</p>
+						{{ } else { _.each(obj.subscribed, function (board) { }}
+						{{= obj.board_tmp(board) }}
+						{{ }) } }}
+						<br clear="both" />
+						<br clear="both" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mainmenu-tmp">
+			<div class="mainmenu-container">
+				<div class="logo-img float-left">
+
+				</div>
+				<button class="btn btn-hamburger btn-hamburger-green ml1 mr3 "><i class="fa fa-bars"></i></button>
+				<div class="menu-mobile">
+					<ul class="mainmenu-mobile">
+						<li><a href="#/notifications" ><i class="fa fa-bell-o"></i>{{= obj.notificationCount }} Notifications</a></li>
+						<li><a href="#/dashboard2" ><i class="glyphicon glyphicon-pushpin"></i>Dashboard</a></li>
+						<li>
+							<a href="#/discover" ><i class="fa fa-compass"></i>Discover</a>
+							<ul class="discovermenu-mobile">
+								<li><a><i class="fa fa-download"></i>Upload image</a></li>
+								<li><a href="#/meme"><i class="fa fa-picture-o"></i>Create Image</a></li>
+								<li><a class="data_trigger" data-trigger="overlay:show_vb_settings"><i class="fa fa-plus"></i>Create new channel</a></li>
+								<li><a href="#/maia"><i class="fa fa-magic"></i>Ask Maia</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="menu-profile-mobile">
+						<li><a href="#/@{{= obj.user.username }}"><i class="fa  fa-user mr1" ></i>Profile</a></li>
+						<li><a href="#/settings"><i class="fa fa-credit-card mr1" ></i>Account</a></li>
+						<li><a href="https://intently.zendesk.com/hc/en-us" target="_blank" class="support {{= obj.nav.support }}"><i class="fa fa-child mr1" ></i>Help</a></li>
+						<li><a id="signout-p"><i class="fa fa-sign-out mr1" ></i>Log Out</a></li>
+					</ul>
+				</div>
+				<div class="menu-container pad15t">
+					<ul>
+						<li class="main-menu-item {{=obj.discoverMenuStatus}}"><a href="#/discover"><i class="fa fa-compass"></i>DISCOVER</a></li>
+						<li class="main-menu-item margin-space {{=obj.dashboard2MenuStatus}}"><a href="#/dashboard2" ><i class="glyphicon glyphicon-pushpin" style="font-size: 80%;"></i>DASHBOARD</a></li>
+					</ul>
+				</div>
+				<div class="menu-setting float-right pad15t">
+					<a href="#/notifications" id="notifications-link">{{= obj.notificationCount }}</a>
+					<div class="member-links float-right">
+						<a class="inline-flex drop">
+							<i class="fa fa-cog"></i>
+						</a>
+						<div class="dropdownContain">
+							<div class="dropOut">
+								<div class="triangle"></div>
+								<ul>
+									<li><a href="#/@{{= obj.user.username }}"><i class="fa  fa-user mr1" ></i>Profile</a></li>
+									<li><a href="#/settings"><i class="fa fa-credit-card mr1" ></i>Account</a></li>
+									<li><a href="https://intently.zendesk.com/hc/en-us" target="_blank" class="support {{= obj.nav.support }}"><i class="fa fa-child mr1" ></i>Help</a></li>
+									<li><a id="signout-p"><i class="fa fa-sign-out mr1" ></i>Log Out</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="menu-profile {{= (obj.nav.current == 'profile') ? '' : 'hidden' }} float-right">
+					<div class="member-links float-right">
+						<a href="#/@{{= obj.user.username }}" class="inline-flex clickable drop">
+							<img style="border: solid; border-width: 1px; background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= obj.user.avatar }}');" class="avatar inline ml1 mt1 mb1 mr0" />
+							<p>{{=(obj.user.firstName + ' ' + obj.user.lastName)}}</p>
+						</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="autocomplete-tmp">
+			<a href="#/discover/{{= value }}">
+				<p class="no-stuffing clickable">{{= label }}</p>
+			</a>
+		</div>
+		<div class="visionboardcard-tmp">
+			<div class="card-visionboard visionboard-{{= model._id }} data col-lg-3 col-md-4 col-sm-6 col-xs-12" data-visionboard="{{= model._id }}" data-listeners="*" data-replace="true">
+				{{ if(model._is_channel_creation_card) { }}
+					<div class="card-box card-add-channel card-create-channel clickable data_trigger" data-trigger="overlay:show_vb_settings">
+						<div class="add-channel-icon" style="margin-top: 50px;">
+							<i class="fa fa-plus"></i>
+						</div>
+						<div class="strong fs16" style="margin-top: 43px;">Create Channel</div>
+					</div>
+				{{ } else { }}
+					<div class="card-box">
+						<a href="#/@{{= model.authorName }}/{{= model.name.replace(/ /g, '-') }}" title="{{= model.name }}">
+							<div>
+								<h4 class="card-visionboard-name">{{= app.config.trunc(model.name, 20, true) }}</h4>
+							</div>
+						</a>
+						<div class="card-label-overlay">
+							{{ if(model.isPremium == '1') { }}
+							<div class="card-label-box" title="This is a premium vision board.">
+								<span class="card-label">Premium</span>
+							</div>
+							{{ } }}
+						</div>
+						<div class="card-state-overlay">
+							{{ if(model.isSubscribed == '1') { }} <!-- subscribed -->
+							<div class="state-item subscribed" title="You are subscribed to this board.">
+								<i class="fa fa-thumb-tack"></i>
+							</div>
+							{{ } }}
+						</div>
+						<div class="card-menu-overlay">
+							<div class="menu-button" title="Click for options.">
+								<i class="fa fa-ellipsis-v"></i>
+							</div>
+							<div class="menu hidden">
+								{{ if(model.isSubscribed == '1') { }} <!-- unsubscribe -->
+								<div class="menu-item unsubscribe" title="Unsubscribe.">
+									<i class="fa fa-thumb-tack"></i>
+								</div>
+								{{ } else { }} <!-- subscribe -->
+								<div class="menu-item subscribe" title="Subscribe">
+									<i class="fa fa-thumb-tack"></i>
+								</div>
+								{{ } }}
+								<!-- disabling this until the channel share project
+								<div class="menu-item facebook" title="Share this vision board to Facebook.">
+									<i class="fa fa-facebook"></i>
+								</div>
+								<div class="menu-item share" title="Share this vision board.">
+									<i class="fa fa-share-square-o"></i>
+								</div>
+								-->
+							</div>
+						</div>
+						<a href="#/@{{= model.authorName }}/{{= model.name.replace(/ /g, '-') }}">
+							<div class="card-visionboard-coverimage" style="background-image: url('{{= app.config.get_base_cdn() }}cover/{{= model.coverFileName }}');">
+							</div>
+							<div class="card-visionboard-subimage-row">
+								<span class="card-visionboard-subimage-1" style="background-image: url('{{= app.config.get_base_cdn() }}cover/{{= model.coverFileName2 }}');">
+								</span>
+								<span class="card-visionboard-subimage-2" style="background-image: url('{{= app.config.get_base_cdn() }}cover/{{= model.coverFileName3 }}');">
+								</span>
+								<span class="card-visionboard-subimage-3" style="background-image: url('{{= app.config.get_base_cdn() }}cover/{{= model.coverFileName4 }}');">
+								</span>
+							</div>
+						</a>
+						<div class="card-visionboard-tag-row" title="{{= (model.customTags.length === 0) ? 'No tags available.' : '#' + model.customTags.split('|').join(' #') }}">
+							{{ if(model.customTags.length === 0) { }}
+								<span class="card-visionboard-tag">No tags available</span>
+							{{ } else { }}
+							{{ _.each(model.customTags.split('|'), function(tag) { if (tag.trim() !== '') { }}
+								<a href="#/search/{{= tag }}">
+									<span class="card-visionboard-tag clickable">#{{= tag }}</span>
+								</a>
+							{{ } }); } }}
+						</div>
+						<div class="card=visionboard-stats-row">
+							<div class="card-visionboard-stats" title="{{= model.numResources + ' images.' }}">
+								<i class="fa fa-picture-o"></i> {{= model.numResources }}
+							</div>
+							<div class="card-visionboard-stats" title="{{= model.numSubscriptions + ' subscribers.' }}">
+								<i class="fa fa-users"></i> {{= model.numSubscriptions }}
+							</div>
+							<br clear="both" />
+						</div>
+					</div>
+				{{ } }}
+			</div>
+		</div>
+		<div class="imagecard-tmp">
+			<div class="card-image col-lg-3 col-md-4 col-sm-6 col-xs-12 data" data-listeners="*" data-replace="true">
+				<img src="{{= model.src }}"/>
+			</div>
+		</div>
+		<div class="memecard-tmp">
+			<div class="card-meme meme meme-{{= model._id }} data col-lg-3 col-md-4 col-sm-6 col-xs-12" data-intention-id="{{= model.id }}" data-listeners="*" data-replace="true">
+				{{ if(model._is_upload_image_tile) { }}
+				<div class="meme-upload-image">
+				<input class="meme-upload-dz meme-upload-input" type="file" />
+					<div class="target">
+						<img src="images/file-dropzone.png" />
+					</div>
+				</div>
+				{{ } else { }}
+				<div class="card-meme-select-overlay">
+					<div class="meme-select">
+						<i class="fa fa-check"></i>
+					</div>
+				</div>
+				<img class="card-meme-image" src="{{= app.config.get_base_cdn() }}full/{{= model.cdnFileName }}"/>
+				{{ } }}
+			</div>
+		</div>
+		<div class="intentioncard-tmp">
+			<div class="card-intention intention intention-{{= model._id }} data col-lg-3 col-md-4 col-sm-6 col-xs-12" data-intention-id="{{= model.id }}" data-listeners="*" data-replace="true">
+				{{ if(model._is_add_intention_card) { }}
+				<form class="card-box upload-form card-add-intention dz-clickable">
+					<div class="dz-message">
+						<div class="add-intention-icon">
+							<i class="fa fa-upload"></i>
+						</div>
+						<div class="strong fs16">Drop Images Here</div>
+						<div>or click to add</div>
+					</div>
+				</form>
+				{{ if(model._show_explore_add_button) { }}
+				<div class="card-explore-intention">
+					<div class="btn btn-green explore-add">Explore & Add</div>
+				</div>
+				{{ } }}
+				{{ } else if(model._is_image_creation_card) { }}
+				<div class="card-box card-add-intention card-create-intention clickable">
+					<div class="add-intention-icon">
+						<i class="fa fa-magic"></i>
+					</div>
+					<div class="strong fs16">Create Custom Image</div>
+					<div>using Intently meme tool</div>
+				</div>
+				{{ } else if(model._is_blank_preview_card) { }}
+				<div class="card-box card-intention-blank" style="height: {{= model.height }}px;">
+				</div>
+				{{ } else { }}
+				<div class="card-box">
+					{{ if(model._curate_mode) { }}
+					<div class="card-intention-curate-overlay">
+						<div class="curate-add">
+							<i class="fa fa-plus"></i>
+							<div class="strong">Add this Image</div>
+							<div>to your vision board</div>
+						</div>
+					</div>
+					<div class="card-intention-curating-overlay hidden">
+						<div class="curate-adding">
+							<i class="fa fa-spinner"></i>
+						</div>
+					</div>
+					<div class="card-intention-curated-overlay hidden">
+						<div class="curate-added">
+							<i class="fa fa-check-circle-o"></i>
+							<div class="strong">Added!</div>
+						</div>
+					</div>
+					{{ } else { }}
+					<div class="card-label-overlay">
+						{{ if(model._show_preview_label) { }}
+						<div class="card-label-box" title="This is a premium image that you have not purchased.">
+							<span class="card-label">Preview</span>
+						</div>
+						{{ } else if(model._show_premium_label) { }}
+						<div class="card-label-box" title="This is a premium image that you have access to.">
+							<span class="card-label">Premium</span>
+						</div>
+						{{ } }}
+					</div>
+					<div class="card-state-overlay">
+						{{ if(model.impression == '1') { }} <!-- liked -->
+						<div class="state-item liked" title="You have liked this image.">
+							<i class="fa fa-heart"></i>
+						</div>
+						{{ } }}
+					</div>
+					<div class="card-menu-overlay">
+						<div class="menu-button" title="Click for options.">
+							<i class="fa fa-ellipsis-v"></i>
+						</div>
+						<div class="menu hidden">
+							{{ if(model.impression == '1') { }} <!-- liked -->
+							<div class="menu-item liked" title="You have liked this image.">
+								<i class="fa fa-heart"></i>
+							</div>
+							{{ } else { }} <!-- like -->
+							<div class="menu-item like" title="Like this image.">
+								<i class="fa fa-heart-o"></i>
+							</div>
+							{{ } }}
+							{{ if(!model._hide_share_button) { }}
+							<div class="menu-item share" title="Share this image.">
+								<i class="fa fa-share-square-o"></i>
+							</div>
+							{{ } }}
+							<div class="menu-item facebook" title="Share this image on Facebook.">
+								<i class="fa fa-facebook"></i>
+							</div>
+							{{ if(model._show_remove_button) { }} <!-- remove -->
+							<div class="menu-item remove" title="Remove this image.">
+								<i class="fa fa-trash-o"></i>
+							</div>
+							{{ } else if(!model._hide_add_button) { }}
+							<div class="menu-item add" title="Add this image to a vision board.">
+								<i class="fa fa-plus"></i>
+							</div>
+							{{ } }}
+						</div>
+					</div>
+					{{ } }}
+					{{ if(model._show_preview_label) { }}
+					<img class="card-intention-image preview clickable" src="{{= model.src }}" />
+					{{ } else { }}
+					<a href="#/intention/{{= model._id }}">
+						<img class="card-intention-image" src="{{= model.src }}" />
+					</a>
+					{{ } }}
+					<div class="card-intention-text-wrapper">
+						<a href="#/@{{= model.authorName }}/{{= model.originalChannelName.replace(/ /g, '-') }}" title="{{= model.originalChannelName }}">
+							<div class="card-intention-visionboard-row">{{= app.config.trunc(model.originalChannelName, 20, true) }}</div>
+						</a>
+						<a href="#/@{{= model.authorName }}">
+							<div class="card-intention-author-row">@{{= model.authorName }}</div>
+						</a>
+					</div>
+				</div>
+				{{ } }}
+			</div>
+		</div>
+		<div class="usercard-tmp">
+			<div class="card-user friend data col-lg-3 col-md-4 col-sm-6 col-xs-12" data-member-id="{{= model._id }}" data-listeners="*" data-replace="true">
+				<div class="card-box">
+					<!-- disabling until the api can send relationship status (none, pending, requested, connected) with user model, maybe also do isRecommended?
+					<div class="card-state-overlay">
+						{{ if(model.isConnected == '1') { }}
+						<div class="state-item subscribed" title="You are following @{{= model.username }}.">
+							<i class="fa fa-thumb-tack"></i>
+						</div>
+						{{ } }}
+					</div>
+					<div class="card-menu-overlay">
+						<div class="menu-button" title="Click for options.">
+							<i class="fa fa-ellipsis-v"></i>
+						</div>
+						<div class="menu hidden">
+							{{ if(model.isConnected == '1') { }}
+							<div class="menu-item connect" title="Follow.">
+								<i class="fa fa-thumb-tack"></i>
+							</div>
+							{{ } else { }}
+							<div class="menu-item unconnect" title="Unfollow.">
+								<i class="fa fa-thumb-tack"></i>
+							</div>
+							{{ } }}
+						</div>
+					</div>
+					-->
+					<a href="#/@{{= model.username }}">
+						<h5 class="center" style="padding-top: 5px; overflow: hidden;">{{= model.fullName }}</h5>
+						<img src="{{= model.avatar_src }}" style="border-bottom: 1px solid #efefef; width: 100%;" />
+					</a>
+					<div style="padding: 5px;">
+						<div class="center">
+							<i class="fa fa-th"></i> {{= model.channelCount }}
+							<i class="fa fa-users margin-left"></i> {{= model.confirmedFriendCount }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="settings-tmp">
+			<header class="pb0 ml2">
+				<h2 class="sans-serif font-light small-caps">
+					<i class="fa fa-cog margin-right"></i><span>Settings</span>
+				</h2>
+			</header>
+			<div class="settings-section center mb3">
+				<form class="upload-form dz-clickable center">
+					<h3 class="dz-message sans-serif small-caps mt1 mb1 pt1 pb1">
+						<img style="background-image: url('{{= app.config.get_base_cdn() }}avatar/{{= obj.avatar }}');" class="avatar large mb1 data upload-form" data-listeners="avatar" data-replace="true" />
+					</h3>
+				</form>
+				<p class="center">Click to select an image for your avatar.</p>
+			</div>
+			<div class="settings-section center mb3">
+				<form class="settings-form" onsubmit="return false;">
+					<label>
+						<input class="form-control mb1" data-field="firstName" type="text" required placeholder="First Name" value="{{= obj.firstName }}">
+					</label>
+					<label>
+						<input class="form-control mb1" data-field="lastName" type="text" name="lastName" required placeholder="Last Name" value="{{= obj.lastName }}">
+					</label>
+					<label>
+						<input class="form-control mb1" type="text" readonly placeholder="" value="{{= obj.email }}">
+					</label>
+					<label>
+						<input class="form-control mb1" data-field="description" type="text" name="description" placeholder="Tell the Intently community a little about yourself" maxlength="255" value="{{= obj.description }}">
+					</label>
+					<label class="clearfix">
+						<input data-field="showIntendButton" type="checkbox"><span>Show the Intend button on images so I can easily add them to my Channels</span>
+					</label>
+					<label class="clearfix">
+						<input data-field="showNewTabOverride" type="checkbox"><span>Show the Intend button on images so I can easily add them to my Channels</span>
+					</label>
+					<div class="btn btn-green margin-top w100 update-settings">Save Changes</div>
+				</form>
+			</div>
+			<div class="settings-section center mt3">
+				<div class="mt3 data_trigger btn btn-green margin-top w100" data-trigger="overlay:show_subscription_payment_settings">Subscription and Payment Settings</div>
+				<div class="mt1 btn btn-green margin-top w100 update-password">Change Password</div>
+			</div>
+			<div class="mt3 center">
+				<p>If you would like to deactivate your Intently account, please
+					<a href="mailto:support@intently.com?subject=Account%20Deactivation%20Request">click here to email our support team</a>.
+				</p>
+				<a href="{{= app.config.get_about_url() }}" target="_blank" class="ml1 small-caps clickable">About</a>
+				<span class="pl1 pr1">|</span>
+				<a href="{{= app.config.get_about_url() }}privacy-policy" target="_blank" class="small-caps clickable">Privacy Policy</a>
+				<span class="pl1 pr1">|</span>
+				<a href="{{= app.config.get_about_url() }}terms-of-use" target="_blank" class="small-caps clickable">Terms of Use</a>
+				<br />
+				<br />
+			</div>
+		</div>
+		<div class="payment-tmp">
+			<div class="w320px center">
+				<div class="mb3 payment-message hidden">
+				</div>
+				<div class="intently-pro-subscription hidden">
+					<div class="fs36 green lh100 text-left pb1">
+						Intently PRO
+					</div>
+					<div class="mb3 subscription-plans">
+					</div>
+					<div class="mb3 left current-subscription-plan">
+					</div>
+				</div>
+				<div class="mb3 intently-channel-purchase hidden">
+					<div class="fs36 green lh100 text-left pb1">
+						Premium Board
+					</div>
+				</div>
+				<div class="mb3 intently-pro-upsell hidden">
+					<div style="border-top: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; width: 75%; margin: 0 auto 3rem; padding: 0 5px;">OR</div>
+					<div class="intently-pro-upsell-subscribe clickable green">Subscribe to Intently PRO for *unlimited* premium content and much, much more.</div>
+				</div>
+				<div class="mb3 active-payment-method hidden">
+					<div class="left mb3 active-payment-method-info"></div>
+				</div>
+				<div class="mb3 new-payment-method hidden">
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-credit-card w20px green"></i></span>
+						<input type="text" class="form-control card-input h44px text-input" placeholder="Card Number"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-male w20px green"></i></span>
+						<input type="text" class="form-control name-input h44px text-input" placeholder="Card Holder Name" />
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-group input-border">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-calendar w20px green"></i></span>
+						<input type="text" class="form-control date-input h44px text-input" placeholder="Expiration Date MM/YY" />
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper bg-white"><i class="fa fa-shield w20px green"></i></span>
+						<input type="text" class="form-control cvc-input h44px text-input" placeholder="CVC" />
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+				</div>
+				<div class="mb3 left unsubscribe-confirmation-message hidden">Are you sure you want to cancel your Intently PRO subscription?</div>
+				<div>
+					<div class="w155px h36px btn btn-green fs16 left center-text pt5px modal-button modal-button-process hidden" style="cursor: default;">
+						<span class="lh100 va-text">Processing</span>
+					</div>
+					<div class="w155px h36px btn btn-green fs16 left center-text pt5px modal-button modal-button-submit">
+						<span class="lh100 va-text">Submit</span>
+					</div>
+					<div class="w155px h36px iron fs16 br2 button-border right center-text pt5px modal-button modal-button-cancel clickable">
+						<span class="lh100 va-text">Cancel</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="signup-tmp">
+			<div class="w320px center data" data-listeners="*" data-replace="true">
+				{{ if(!model.is_jv_signup) { }}
+				<div class="mb1 public-form-title">Signup</div>
+				{{ } }}
+				<div class="mb1 signup-form">
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-envelope w20px green"></i></span>
+						<input type="text" class="form-control email-input h44px text-input" placeholder="Your Email"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-user w20px green"></i></span>
+						<input type="text" class="form-control first-name-input h44px text-input" placeholder="First Name"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-user w20px green"></i></span>
+						<input type="text" class="form-control last-name-input h44px text-input" placeholder="Last Name"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-at w20px green"></i></span>
+						<input type="text" class="form-control username-input h44px text-input" placeholder="@Username"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-lock w20px green"></i></span>
+						<input type="password" class="form-control password-input h44px text-input" placeholder="Password" />
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+				</div>
+				<div>
+					<div class="w320px h36px mb1 btn btn-green fs16left center-text pt5px modal-button modal-button-process hidden" style="cursor: default;">
+						<span class="lh100 va-text">Processing</span>
+					</div>
+					<div class="w320px h36px mb1 btn btn-green fs16 left center-text pt5px modal-button modal-button-submit">
+						<span class="lh100 va-text">Submit</span>
+					</div>
+					<div class="center">
+						<button class="facebook-login-button w100 data_trigger" data-trigger="user:facebooksignin">
+							<em class="facebook-login-logo"></em><h4 class="facebook-login-text text-center w100">Continue with Facebook</h4>
+						</button>
+					</div>
+				</div>
+				<a href="#/login"><div class="public-form-help-link">Already have an account?</div></a>
+			</div>
+		</div>
+		<div class="login-tmp">
+			<div class="w320px center">
+				<div class="mb1 public-form-title">Login</div>
+				<div class="mb1 signup-form">
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-user w20px green"></i></span>
+						<input type="text" class="form-control username-input h44px text-input" placeholder="Your Email / Username"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-lock w20px green"></i></span>
+						<input type="password" class="form-control password-input h44px text-input" placeholder="Password" />
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+				</div>
+				<div class="mb1">
+					<div class="w320px h36px mb1 btn btn-green fs16left center-text pt5px modal-button modal-button-process hidden" style="cursor: default;">
+						<span class="lh100 va-text">Processing</span>
+					</div>
+					<div class="w320px h36px mb1 btn btn-green fs16 left center-text pt5px modal-button modal-button-submit">
+						<span class="lh100 va-text">Submit</span>
+					</div>
+					<div class="center">
+						<button class="facebook-login-button w100 data_trigger" data-trigger="user:facebooksignin">
+							<em class="facebook-login-logo"></em><h4 class="facebook-login-text text-center w100">Continue with Facebook</h4>
+						</button>
+					</div>
+				</div>
+				<a href="#/signup"><div class="public-form-help-link">Need to sign up for an account?</div></a>
+				<a href="#/forgotpassword"><div class="public-form-help-link">Forget your password?</div></a>
+			</div>
+		</div>
+		<div class="forgotpassword-tmp">
+			<div class="w320px center">
+				<div class="mb1 public-form-title">Forgot Password</div>
+				<div class="mb1 forgotpassword-form">
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-envelope w20px green"></i></span>
+						<input type="text" class="form-control email-input h44px text-input" placeholder="Your Email Address"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+				</div>
+				<div class="mb1">
+					<div class="w155px h36px btn btn-green fs16left center-text pt5px modal-button modal-button-process hidden" style="cursor: default;">
+						<span class="lh100 va-text">Processing</span>
+					</div>
+					<div class="w155px h36px btn btn-green fs16 left center-text pt5px modal-button modal-button-submit">
+						<span class="lh100 va-text">Submit</span>
+					</div>
+					<div class="w155px h36px iron fs16 br2 button-border right center-text pt5px modal-button modal-button-cancel clickable">
+						<span class="lh100 va-text">Cancel</span>
+					</div>
+				</div>
+				<a href="#/signup"><div class="public-form-help-link">Need to sign up for an account?</div></a>
+			</div>
+		</div>
+		<div class="changepassword-tmp">
+			<div class="w320px center">
+				<div class="mb1 public-form-title">Change Password</div>
+				<div class="mb1 changepassword-form">
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-envelope w20px green"></i></span>
+						<input type="password" class="form-control current-password-input h44px text-input" placeholder="Current Password"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-envelope w20px green"></i></span>
+						<input type="password" class="form-control new-password-input h44px text-input" placeholder="New Password"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+					<div class="w320px h44px input-border input-group">
+						<span class="input-group-addon left-icon-wrapper"><i class="fa fa-envelope w20px green"></i></span>
+						<input type="password" class="form-control repeat-password-input h44px text-input" placeholder="Repeat New Password"/>
+						<span class="input-group-addon right-icon-wrapper"><i class="fa green"></i></span>
+					</div>
+				</div>
+				<div class="mb1">
+					<div class="w155px h36px btn btn-green fs16left center-text pt5px modal-button modal-button-process hidden" style="cursor: default;">
+						<span class="lh100 va-text">Processing</span>
+					</div>
+					<div class="w155px h36px btn btn-green fs16 left center-text pt5px modal-button modal-button-submit">
+						<span class="lh100 va-text">Submit</span>
+					</div>
+					<div class="w155px h36px iron fs16 br2 button-border right center-text pt5px modal-button modal-button-cancel clickable">
+						<span class="lh100 va-text">Cancel</span>
+					</div>
+				</div>
+				<a href="#/signup"><div class="public-form-help-link">Need to sign up for an account?</div></a>
+			</div>
+		</div>
+		<div class="jv-tmp">
+			<div class="fullwidth">
+				<div class="w100 center">
+					<h1 class="headline-message serif font-bold text-italic fadeInUp animated delay-15 mt3">Replace ads you hate with content you love</h1>
+					<h4 class="welcome-message sans-serif margin-top font-light animated fadeInUp delay-20 mb3">Intently is the world's most inspirational adblocker, replacing all the ads you see on the internet with the content you choose.</h4>
+				</div>
+				<div class="container-fluid bg-white">
+					<div class="row jvimage pt5 pb5">
+						<div class="col-xs-12 col-md-1">
+						</div>
+						<div class="col-xs-12 col-md-5 center videoEmbedHtml"></div>
+						<div class="col-xs-12 col-md-5 center bg-white pt2 pb1">
+							<div class="logo"></div>
+							<div class="bulletPointHtml left w100 pb1 pt1"></div>
+							<div class="login-target">
+								<div class="sign-up-1 mr1 ml1 mb1"></div>
+								<div class="center no-mobile-block" >
+									<a href="{{= app.config.get_about_url() }}" target="_blank" class="ml1 small-caps clickable">About</a>
+									<br/>
+									<a href="{{= app.config.get_about_url() }}privacy-policy" target="_blank" class="small-caps clickable">Privacy Policy</a>
+									<span class="pl1 pr1">|</span>
+									<a href="{{= app.config.get_about_url() }}terms-of-use" target="_blank" class="small-caps clickable">Terms of Use</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-1"></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 center bg-green pt5 pb5">
+								<h1 class="white">
+									Content curated specifically for you.
+								</h1>
+								<h4 class="white">
+									 Register now to get exclusive hand-picked content served to you every time you open your browser.
+								</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 center additionalInfoHtml pt5 pb5"></div>
+						<div class="col-xs-6 center pt5 pb5 bg-grey">
+							<div class="logoURL"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 center bg-green bileftbottom pt1 pb1"></div>
+					</div>
+					<div class="row pt5">
+						<div class="col-xs-12 center">
+							<div class="w80 center">
+								<h1>
+									How does it make my life better?
+								</h1>
+								<h3>
+									Inspired individuals and inspired companies use Intently every day to supercharge their life.
+								</h3>
+								<h4>
+									You see over 200 advertisements online every day. Yes, they’re annoying, but what you don’t realize is how ingrained those images get in your subconscious each time you see them. By using Intently, you get to replace those ads with images that remind and inspire you with all the amazing things you want to create in your life. When you start seeing YOUR inspiring images over 200 times every day, you’ll change your subconscious and reprogram your life to support you in achieving your dreams, goals, and desires.
+									<br/><br/>Enter your info below to get started now.
+								</h4>
+							</div>
+						</div>
+					</div>
+					<div class="row pt5 pb5">
+						<div class="col-xs-12 center">
+							<h2>As Featured on</h2>
+						</div>
+					</div>
+					<div class="row pb5">
+						<div class="col-xs-12 col-md-2"></div>
+						<div class="col-xs-12 col-md-2 center">
+							<div class="sponsorLogo">
+								<img src="/images/Forbes_logo.svg.png" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-1"></div>
+						<div class="col-xs-12 col-md-2 center">
+							<div class="sponsorLogo">
+								<img class="img-responsive" src="/images/success-logo.png" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-1"></div>
+						<div class="col-xs-12 col-md-2 center">
+							<div class="sponsorLogo">
+								<img src="/images/inc-logo.png" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-2"></div>
+					</div>
+					<div class="row pt5 pb5">
+						<div class="col-xs-12 col-md-4"></div>
+						<div class="col-xs-12 col-md-4 center">
+							<div class="sign-up-2 mr1 ml1 mb1"></div>
+							<div class="center no-mobile-block" >
+								<a href="{{= app.config.get_about_url() }}" target="_blank" class="ml1 small-caps clickable">About</a>
+								<br/>
+								<a href="{{= app.config.get_about_url() }}privacy-policy" target="_blank" class="small-caps clickable">Privacy Policy</a>
+								<span class="pl1 pr1">|</span>
+								<a href="{{= app.config.get_about_url() }}terms-of-use" target="_blank" class="small-caps clickable">Terms of Use</a>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4"></div>
+					</div>
+					<div class="row bg-blue pt5 pb5">
+						<div class="col-xs-12 center">
+							<h1 class="headline-message serif font-bold text-italic fadeInUp animated delay-15 white">Intently</h1>
+							<h2 class="white">See What You Want To See</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="externalshare-tmp">
+			<div id="fbbg" class="w100">
+				<div id="fbbg-container">
+					<div class="pull-bottom center only-mobile-block white" style="margin-bottom: 2rem;">
+						<a href="{{= app.config.get_about_url() }}" target="_blank" class="ml1 small-caps clickable white">About</a>
+						<br/>
+						<a href="{{= app.config.get_about_url() }}privacy-policy" target="_blank" class="small-caps clickable white">Privacy Policy</a>
+						<span class="pl1 pr1">|</span>
+						<a href="{{= app.config.get_about_url() }}terms-of-use" target="_blank" class="small-caps clickable white">Terms of Use</a>
+					</div>
+				</div>
+				<div class="w100" style="z-index: auto; min-height: 100vh;">
+					<img id="loading-image" class="loadingImage fadeIn animated delay-10" src="images/loading.gif"/>
+					<div id="hero">
+						<div id="cta" data-anchor-target="#hero">
+							<div class="bg bg-black"></div>
+							<h1 id="headline-message" class="white serif font-bold text-italic fadeInUp animated delay-15">Replace online ads with inspiration (like this one)</h1>
+							<h4 id="welcome-message" class="white sans-serif margin-top font-light animated fadeInUp delay-20">With the world's most inspiring images replacing advertisements, the web becomes your personal reminder to the intentions and communities that matter to you.</h4>
+							<!-- <h3 class="white sans-serif font-light fadeInUp animated delay-20"><a class="scrollto" data-target="extension" data-scroll-duration="1000" id="learn-more">How does it work?</a></h3> -->
+						</div>
+						<div class="container-fluid mt10 hidden heroImage">
+							<div class="row">
+								<div class="col-xs-12 center">
+									<img src="./images/arrow.png" />
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 center">
+									<div class="bg-red relative center exampleImage" style="width: 400px; height:400 ">
+										<span class="fs48 lh100" style="display:inline-block;">Ads</span>
+									</div>
+								</div>
+								<div class="col-xs-6 center">
+									<div class="bg-red cloud4 relative center cdnImage" style="width: 400px; height:400px ">
+										Ads
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="visionboard-sidebar-tmp">
+			<a href="#/@{{= obj.authorName }}/{{= obj.name.replace(/ /g, '-') }}" class="vertical pl1 pt1 pb1 clickable highlightable">
+				<div class="avatar data" data-replace="true" data-listeners="coverFileName" style="background-image: url({{= app.config.get_base_cdn() }}cover/{{= obj.coverFileName }});"></div>
+				<p class="white pl1 sans-serif data" data-replace="true" data-listeners="name">
+					{{= app.config.trunc(obj.name, 40, true) }}
+				</p>
+			</a>
+		</div>
+		<div class="maia-tmp">
+			<div class='maia-step-1 hidden'>
+				<div class="maia-content">
+					<div class="text-center maia-content-container">
+						<div class="mr4 ml4">
+							<p class="maia-p">Hi {{= user.firstName }}, I'm Maia. <br/>I'd like to ask you some questions so I can curate a vision board to inspire you and aid your transformation.</p>
+							<p><button class="btn btn-success maia-btn maia-btn-start">Let's get started.</button></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='maia-step-2 hidden'>
+				<div class="maia-content">
+					<div class="text-center maia-content-container">
+						<div class="mr4 ml4">
+							<p class="maia-p">What area would you like to focus on? I'm always learning new things, so be sure to check back often for new topics!</p>
+						</div>
+						<div class="topics-container" style="padding-top: 10px;"></div>
+					</div>
+				</div>
+			</div>
+			<div class='maia-step-3 hidden'>
+				<div class="text-center maia-content-container maia-iframe-target"></div>
+			</div>
+			<div class='maia-step-4 hidden'>
+				<div class="maia-content">
+					<div class="maia-thinking center mt3 mb3 hidden">Hang tight {{= user.firstName}}, I am curating your vision board now :)</div>
+					<div class="text-center maia-preview-container">
+						<div class="maia-preview-grid"></div>
+						<div class="maia-preview-overlay">
+							<p class="maia-p white mr4 ml4">I've created this custom vision board just for you, {{= user.firstName}}, to help you with your transformation.</p>
+							<p class="maia-p maia-p-small white" style="margin-top: 40px;">intently pro empowers your transformation</p>
+							<p class="maia-p maia-p-small-light white">+ instant custom channels + 56 premium channels + image creation tools</p>
+							<p class="maia-p maia-p-small white">for $9.99/month</p>
+							<p class="maia-p-upgrade"><a class="btn btn-success maia-preview-btn upgrade data_trigger" data-trigger="overlay:show_subscription_payment_settings">Upgrade to Intently PRO</a></p>
+							<p class="maia-p-learn-more"><a href="{{= app.config.get_about_pro_url() }}" target="_blank" class="maia-btn-learn-more">Learn more about intently pro</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="meme-tmp">
+			<div class="container meme-wrapper">
+				<header>
+					<div class="font-loader">
+						<p style="font-family: 'font1'">FONT-test</p>
+						<p style="font-family: 'font2'">FONT-test</p>
+						<p style="font-family: 'font3'">FONT-test</p>
+						<p style="font-family: 'font4'">FONT-test</p>
+						<p style="font-family: 'font5'">FONT-test</p>
+						<p style="font-family: 'font6'">FONT-test</p>
+						<p style="font-family: 'font7'">FONT-test</p>
+						<p style="font-family: 'font8'">FONT-test</p>
+						<p style="font-family: 'font9'">FONT-test</p>
+						<p style="font-family: 'font10'">FONT-test</p>
+					</div>
+				</header>
+				<section class="loadingStep">
+					<div class="mt2">
+						<div class="loadingStepMessage">Loading background images...</div>
+						<img class="mt2" src="../images/loading.gif"/>
+					</div>
+				</section>
+				<section class="firstStep hidden">
+					<div class="mt2">
+						<div class="meme-grid"></div>
+					</div>
+				</section>
+				<section class="secondStep hidden">
+					<div class="backimage">
+						<img src="" class="meme-caption-image" id="srcImage">
+						<div class="col-sm-12 main-textarea-div">
+							<textarea autofocus spellcheck="false" placeholder="Type your custom text here!" class="autoWrap meme-top-text"></textarea>
+						</div>
+						<div class="colorselect">
+							<p class="color white"></p>
+							<p class="color black"></p>
+						</div>
+						<div class="pickbtn-div">
+							<div class="btn btn-green meme-back-step-1">Back</div>
+							<div class="btn btn-green ml2 meme-proceed-step-3">Pick a Style</div>
+						</div>
+					</div>
+				</section>
+				<section class="thirdStep hidden">
+					<div class="slider-div"></div>
+					<div class="pickbtn-div">
+						<div class="btn btn-green meme-back-step-2">Back</div>
+						<div class="btn btn-green ml2 meme-proceed-step-4">Create and Add to Vision Board</div>
+					</div>
+					<div class="stylepreview-div">
+						<img class="stylepreview-img" />
+					</div>
+				</section>
+				<section class="forthStep hidden">
+					<div class="tryOrUpgrade">
+						<div class="trydiv"></div>
+					</div>
+				</section>
+				<div class="modal fade try-modal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-close"></div>
+							<div class="modal-body" id="trymodalbody">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/autosize/src/autosize.js"></script>
+	<script src="bower_components/uri.js/src/URI.min.js"></script>
+	<script src="bower_components/uri.js/src/URI.fragmentURI.js"></script>
+	<script src="bower_components/velocity/velocity.min.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.waitforimages/1.5.0/jquery.waitforimages.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.29/skrollr.min.js"></script>
+
+	<script src="js/lib.jquery.browser.js"></script>
+	<script src="js/lib.jquery.fileupload.js"></script>
+	<script src="js/lib.jquery.finaltilesgallery.js"></script>
+	<script src="js/lib.jquery.nicescroll.min.js"></script>
+	<script src="js/lib.dropzone.js"></script>
+	<script src="js/lib.cookies.min.js"></script>
+	<script src="js/lib.bfp.min.js"></script>
+	<script src="js/lib.move.js"></script>
+	<script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
+	<script src="js/lib.imagesloaded.js"></script>
+	<script src="js/lib.stackblur.js"></script>
+	<script src="js/lib.jssor.slider.mini.js"></script>
+	<script src="js/lib.xregexp.js"></script>
+
+	<script type="text/javascript" src="js/lib.underscore.min.js"></script>
+	<script type="text/javascript" src="js/lib.backbone.min.js"></script>
+	<script type="text/javascript" src="js/lib.dropzone.js"></script>
+	<script type="text/javascript" src="js/lib.tag.js"></script>
+
+	<script type="text/javascript">
+		//update template settings
+		_.templateSettings = {
+			evaluate	: /\{\{(.+?)\}\}/gim,
+			interpolate	: /\{\{\=(.+?)\}\}/gim
+		};
+		//register app before calling any other js files
+		var app = {
+			plugins		: {},
+			views		: {},
+			models		: {},
+			collections	: {},	//prototypes
+			temp		: {},
+			setup: function() {
+				app.temp.original_hash = window.location.hash;
+				_.extend(app, Backbone.Events);
+				app.collection		= new app.collections.base();
+				app.user			= new app.models.user({ active_user: true });
+				app.base			= new app.views.base({ el: $('body') });
+				app.router			= new Base_Router();
+				app.config_loaded	= false;
+				Backbone.history.start();
+				Backbone.history.intently_pages = [];
+				$(document).tooltip({ 
+					delay: 500,
+					selector: '*',
+					placement: 'auto right'
+				});
+				//global ajax handlers
+				$(document).ajaxSuccess(function(event, xhr, settings) {
+					var response = xhr.responseJSON;
+					if(!response) {
+						//some kind of http error, show generic response
+						console.log('empty response!', xhr, response);
+						app.trigger('error', app.config.generic_api_error_message);
+					}
+					if(response.success) {
+						//api success, do nothing
+					}
+					else {
+						if(response.paymentRequest) {
+							//there is a payment requirement
+							app.trigger('overlay:handle_payment_request', response, xhr);
+						}
+						else if(response.message) {
+							console.log('api failure', xhr, response);
+							//alert user with api message unless it is a not logged in message
+							if(response.message != 'Not Logged In!')
+								app.trigger('error', response.message);
+						}
+						else {
+							//generic message
+							console.log('no message', xhr, response);
+							app.trigger('error', app.config.generic_api_error_message);
+						}
+					}
+				});
+				$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+					if(jqxhr.status > 0) {
+						//a 500 or a 404...
+						app.trigger('error', app.config.generic_api_error_message);
+					}
+				});
+				//here we go!
+				app.user.check_status();
+			}
+		};
+		$(function() { app.setup(); });
+	</script>
+
+	<script type="text/javascript" src="js/app.config.js"></script>
+	<script type="text/javascript" src="js/app.router.js"></script>
+	<script type="text/javascript" src="js/app.plugins.fb.js"></script>
+	<script type="text/javascript" src="js/app.plugins.fetch.js"></script>
+	<script type="text/javascript" src="js/app.plugins.form.js"></script>
+	<script type="text/javascript" src="js/app.plugins.extension.js"></script>
+	<script type="text/javascript" src="js/app.plugins.ga.js"></script>
+	<script type="text/javascript" src="js/app.plugins.hotjar.js"></script>
+	<script type="text/javascript" src="js/app.plugins.msg.js"></script>
+	<script type="text/javascript" src="js/app.plugins.shareDialog.js"></script>
+	<script type="text/javascript" src="js/app.plugins.fullmodal.js"></script>
+
+	<script type="text/javascript" src="js/app.models.intention.js"></script>
+	<script type="text/javascript" src="js/app.models.notifications.js"></script>
+	<script type="text/javascript" src="js/app.models.user.js"></script>
+	<script type="text/javascript" src="js/app.models.visionboard.js"></script>
+
+	<script type="text/javascript" src="js/app.collections.base.js"></script>
+	<script type="text/javascript" src="js/app.collections.cluster.js"></script>
+	<script type="text/javascript" src="js/app.collections.notifications.js"></script>
+
+	<script type="text/javascript" src="js/app.views._base.js"></script>
+	<script type="text/javascript" src="js/app.views.base.js"></script>
+	<script type="text/javascript" src="js/app.views.bind.js"></script>
+	<script type="text/javascript" src="js/app.views.404.js"></script>
+	<script type="text/javascript" src="js/app.views.login.js"></script>
+	<script type="text/javascript" src="js/app.views.signup.js"></script>
+	<script type="text/javascript" src="js/app.views.jv.js"></script>
+	<script type="text/javascript" src="js/app.views.forgotpassword.js"></script>
+	<script type="text/javascript" src="js/app.views.changepassword.js"></script>
+	<script type="text/javascript" src="js/app.views.pro.js"></script>
+	<script type="text/javascript" src="js/app.views.welcome.js"></script>
+	<script type="text/javascript" src="js/app.views.connections.js"></script>
+	<script type="text/javascript" src="js/app.views.dashboard.js"></script>
+	<script type="text/javascript" src="js/app.views.dashboard2.js"></script>
+	<script type="text/javascript" src="js/app.views.discover.js"></script>
+	<script type="text/javascript" src="js/app.views.externalshare.js"></script>
+	<script type="text/javascript" src="js/app.views.intention.js"></script>
+	<script type="text/javascript" src="js/app.views.invite.js"></script>
+	<script type="text/javascript" src="js/app.views.mainmenu.js"></script>
+	<script type="text/javascript" src="js/app.views.members.js"></script>
+	<script type="text/javascript" src="js/app.views.curate.js"></script>
+	<script type="text/javascript" src="js/app.views.notifications.js"></script>
+	<script type="text/javascript" src="js/app.views.overlay.js"></script>
+	<script type="text/javascript" src="js/app.views.search.js"></script>
+	<script type="text/javascript" src="js/app.views.searchbar.js"></script>
+	<script type="text/javascript" src="js/app.views.settings.js"></script>
+	<script type="text/javascript" src="js/app.views.sidebar.js"></script>
+	<script type="text/javascript" src="js/app.views.visionboard.js"></script>
+	<script type="text/javascript" src="js/app.views.visionboardcard.js"></script>
+	<script type="text/javascript" src="js/app.views.intentioncard.js"></script>
+	<script type="text/javascript" src="js/app.views.imagecard.js"></script>
+	<script type="text/javascript" src="js/app.views.usercard.js"></script>
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<script type="text/javascript" src="js/app.views.maia.js"></script>
+	<script type="text/javascript" src="js/app.views.meme.js"></script>
+</body>
+</html>

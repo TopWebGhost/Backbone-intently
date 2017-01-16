@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>intently | see what you want to be</title>
+		<link rel="icon" type="image/png" href="../images/favicon.png">
+		<link href="//fonts.googleapis.com/css?family=Merriweather:300,300italic,400,400italic,700,700italic|Lato:300,400,600,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="mobile.css">
+		<link type="text/plain" rel="author" href="../humans.txt">
+		<meta property="og:url" content="https://www.intently.com/">
+		<meta property="og:title" content="intently | see what you want to be">
+		<meta property="og:description" content="replace online ads with inspiration">
+		<meta property="og:image" content="https://www.intently.com/images/intently-logo-img.png">
+		<script type="text/javascript" src="lib.bfp.min.js"></script>
+		<script type="text/javascript" src="lib.cookies.min.js"></script>
+	</head>
+	<body>
+		<div id="jvbg" class="row full-width">
+			<div id="jvbg-container" class="jvBackground">&nbsp;</div>
+			<div class="xlarge-12 large-12 medium-12 columns" id="left-column" style="z-index: auto;">
+				<img id="loading-image" class="loadingImage fadeIn animated delay-10" src="images/loading.gif" style="display: none;">
+				<section id="hero" class="fadeIn animated delay-10 unfiltered" style="">
+					<div id="cta" data-anchor-target="#hero">
+						<div class="bg bg-black"></div>
+						<h2 class="serif font-bold text-italic fadeInUp animated delay-15">Replace online ads with inspiration</h2>
+						<h5 id="welcome-message" class="sans-serif margin-top font-light animated fadeInUp delay-20">Join Intently below</h5>
+					</div>
+					<img id="watermark-image" class="watermarkImage fadeIn animated delay-20" src="">
+				</section>
+			</div>
+		</div>
+		<div id="sidebar" style="width: 100%; transition: -webkit-transform 0.2s ease-out; -webkit-transition: -webkit-transform 0.2s ease-out; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);">
+			<div class="text-center pt1">
+				<a id="login-link" class="font-light sans-serif" onclick="document.getElementById('login-link').style.display = 'none'; document.getElementById('no-mobile-message').style.display = 'block';">Existing users, sign in here<span class="icon-right-arrow margin-left-small"></span></a>
+			</div>
+			<div id="no-mobile-message" style="display: none; min-height: 30%; padding: 2em; text-align: center;">
+				<h3 style="color: white;">Intently mobile is coming soon! In the meantime, visit us on desktop to "see what you want to be".</h3>
+			</div>
+			<div class="sign-up ">
+				<section class="pl1 pt1 pb1 pr1">
+					<form id="signup-form" onsubmit="return false;" class="signup-form">
+						<div class="input-group split clearfix">
+							<button id="facebook-button" type="submit" class="facebook-login-button">
+								<em class="facebook-login-logo"></em><span class="facebook-login-text">Sign up with Facebook</span>
+							</button>
+							<div>
+								<label class="small-caps">
+									<input id="firstName" type="text" placeholder="first name">
+								</label>
+							</div>
+							<div>
+								<label class="small-caps">
+									<input id="lastName" type="text" placeholder="last name">
+								</label>
+							</div>
+						</div>
+						<div class="input-group clearfix">
+							<label class="small-caps">
+								<input id="email" type="text" placeholder="you@email.com">
+							</label>
+						</div>
+						<div class="input-group split">
+							<div>
+								<label class="small-caps">
+									<input id="username" type="text" placeholder="username">
+								</label>
+							</div>
+							<div>
+								<label class="small-caps">
+									<input id="password" type="password" placeholder="password">
+								</label>
+							</div>
+						</div>
+						<div class="hidden">
+							<input type="hidden" name="jointVentureID" id="jointVentureID" value="1">
+						</div>
+						<div id="error-message" class="text-center" style="color: red; font-size: 2em; padding-bottom: 1em;"></div>
+						<button id="submit-button" class="button green multiline full-width data_trigger">
+							<h1 class="font-bold serif text-center">Join Intently</h1>
+							<h6 class="small-caps hide-small hide-medium text-center full-width">and create your first vision board</h6>
+						</button>
+					</form>
+					<div id="success-message" style="display: none; min-height: 40%; padding: 2em; text-align: center;">
+						<h3 style="color: white;">Congratulations! Your Intently account has been created. Check your email for a 'how to' guide on getting started. Intently mobile is coming soon!</h3>
+					</div>
+					<div class="mb1 center">
+						<a href="https://about.intently.com/" target="_blank" class="small-caps clickable">About</a>
+					</div>
+					<div class="mb1 center">
+						<a href="privacy-policy.html" class="small-caps clickable">Privacy Policy</a>
+						<span class="pl1 pr1">|</span>
+						<a href="terms-of-use.html" class="small-caps clickable">Terms of Use</a>
+					</div>
+				</section>
+			</div>
+		</div>
+		<script type="text/javascript" src="mobile.js"></script>
+	</body>
+</html>
